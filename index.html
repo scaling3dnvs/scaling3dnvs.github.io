@@ -320,7 +320,7 @@ to inefficient transformer usage requiring explicit alignment of source and targ
         <div class="column is-three-quarters has-text-centered">
           <h2 class="title is-3">Method Overview</h2>
           <figure class="image">
-            <img src="overview.png" alt="Method Overview">
+            <img src="full_overview.png" alt="Method Overview">
           </figure>
           <p class="content is-medium" style="margin-top: 1rem;">
             <b>An illustration of the architecture.</b> We use CAT3D, a multi-view diffusion model, to generate synthetic views conditioned on random spline camera trajectories and a random image. From the two random views form the generated views as the source views and the input conditioning view to be the target of our large reconstruction network. Our large reconstruction model uses a special transformer block which we name Tok-D Transformer. When real data is available, we just use the reconstruction transformer.
