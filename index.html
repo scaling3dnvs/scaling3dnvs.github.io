@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scaling Transformer-Based Novel View Synthesis</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css">
+  <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+  <style>
+    :root {
+      --gap: 16px;
+    }
+
+    body {
+      font-family: 'Noto Sans', sans-serif;
+      color: #333;
+    }
+
+    .title,
+    .subtitle,
+    h2 {
+      font-family: 'Google Sans', sans-serif;
+      font-weight: 500;
+    }
+
+    .section {
+      padding: 3rem 1.5rem;
+    }
+
+    .author-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .author-col {
+      padding: 0 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .author-text {
+      font-size: 1.2rem;
+      color: #3273dc;
+    }
+
+    .author-text:hover {
+      text-decoration: underline;
+    }
+
+    .publication-links {
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .paragraph {
+      text-align: justify;
+      line-height: 1.6;
+      margin-top: 2rem;
+    }
+
+    #bibtex pre {
+      background-color: #f5f5f5;
+      padding: 1.5rem;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    #carousel-results .carousel-arrow {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    #carousel-results .carousel-arrow .fa {
+      font-size: 2rem;
+    }
+
+    .carousel-arrow.is-prev {
+      left: -50px;
+    }
+
+    .carousel-arrow.is-next {
+      right: -50px;
+    }
+
+    .video-wrapper {
+      border: solid 8px transparent;
+      border-width: 0 8px;
+    }
+    .image video {
+      position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+  }
+  </style>
+</head>
+
+<body>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters content has-text-centered">
+          <h1 class="title is-1">Scaling Transformer-Based Novel View Synthesis with Token Disentanglement and Synthetic Data</h1>
+          <h2 class="subtitle is-3">ICCV 2025</h2>
+          <div class="author-row">
+            <div class="author-col"><a href="#" class="author-text">Nithin Gopalakrishnan Nair¹</a></div>
+            <div class="author-col"><a href="#" class="author-text">Srinivas Kaza²*</a></div>
+            <div class="author-col"><a href="#" class="author-text">Xuan Luo²</a></div>
+            <div class="author-col"><a href="#" class="author-text">Vishal M. Patel¹</a></div>
+            <div class="author-col"><a href="#" class="author-text">Stephen Lombardi²</a></div>
+            <div class="author-col"><a href="#" class="author-text">Jungyeon Park²</a></div>
+          </div>
+          <p class="is-size-5">*Denotes Equal Contribution</p>
+          <div class="is-size-4 has-text-centered">
+            <span>¹Johns Hopkins University</span> &nbsp;&nbsp;&nbsp; <span>²Google</span>
+          </div>
+          <div class="publication-links buttons">
+            <a href="iccv_2025_final_full.pdf" class="button is-primary is-rounded is-medium">
+              <span class="icon"><i class="fas fa-file-pdf"></i></span>
+              <span>Paper</span>
+            </a>
+            <a href="#" class="button is-dark is-rounded is-medium">
+              <span class="icon"><i class="fab fa-arxiv"></i></span>
+              <span>arXiv</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters has-text-centered">
+          <!-- <h2 class="title is-3"></h2> -->
+          <figure class="image">
+            <img src="teaser_figure.png" alt="Teaser Figure">
+          </figure>
+          <p class="content is-medium" style="margin-top: 1rem;">
+            <b>Overview.</b> Our method performs feed-forward novel-view synthesis from a series of input images, such as the pairs shown
+above. We demonstrate strong results in terms of quality and generalization capacity, performing well across a variety of common novel-
+view synthesis datasets, including scenes that are out-of-distribution.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="carousel-section">
+    <div class="container">
+      <div class="column has-text-centered is-15-desktop">
+        <div id="carousel-results" class="carousel">
+          <div class="item-1">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video controls loop>
+                  <source src="videos/video_0.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="item-2">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video autoplay muted controls loop>
+                  <source src="videos/video_1.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="item-3">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video autoplay muted controls loop>
+                  <source src="videos/video_2.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="item-4">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video autoplay muted controls loop>
+                  <source src="videos/video_3.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="item-5">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video autoplay muted controls loop>
+                  <source src="videos/video_4.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="item-6">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video autoplay muted controls loop>
+                  <source src="videos/video_6.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="item-7">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video autoplay muted controls loop>
+                  <source src="videos/video_7.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="item-8">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video autoplay muted controls loop>
+                  <source src="videos/video_8.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="item-9">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video autoplay muted controls loop>
+                  <source src="videos/video_9.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="item-10">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video autoplay muted controls loop>
+                  <source src="videos/video_10.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="item-11">
+            <div class="video-wrapper">
+              <figure class="image is-16by9">
+                <video autoplay muted controls loop>
+                  <source src="videos/video_11.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </figure>
+            </div>
+          </div>
+        </div>
+        <!-- <p class="content is-medium is-centered" style="margin-top: 1rem;"> -->
+        <!--     <b>Example caption.</b> Example caption text -->
+        <!-- </p> -->
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters">
+          <h2 class="title is-3 has-text-centered">Abstract</h2>
+          <div class="paragraph content is-medium">
+            <p>
+              Large transformer-based models have made significant progress in generalizable novel view synthesis (NVS) from sparse input views, generating novel viewpoints without the need for test-time optimization. However, these models are constrained by the limited diversity of publicly available scene datasets, making most real-world (in-the-wild) scenes out-of-distribution. To overcome this, we incorporate synthetic training data generated from diffusion models, which improves generalization across unseen domains. While synthetic data offers scalability, we identify artifacts introduced during data generation as a key bottleneck affecting reconstruction quality. To address this, we propose a token disentanglement process within the transformer architecture, enhancing feature separation and ensuring more effective learning. This refinement not only improves reconstruction quality over standard transformers but also enables scalable training with synthetic data. As a result, our method outperforms existing models on both in-dataset and cross-dataset evaluations, achieving state-of-the-art results across multiple benchmarks while significantly reducing computational costs.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters has-text-centered">
+          <h2 class="title is-3">PCA visualization of source and target features</h2>
+          <figure class="image">
+            <img src="pca_figure.png" alt="PCA visualization">
+          </figure>
+          <p class="content is-medium" style="margin-top: 1rem;">
+            <b>A visualization of the principal components of transformer layer outputs for source and target of LVSM.</b> The 24 images
+in each subfigure show the layer output of each layer of the transformer. LVSM features for source and target images looks similar even
+though the source is conditioned with image and Plücker coordinates and target is conditioned with Plücker coordinates alone. This leads
+to inefficient transformer usage requiring explicit alignment of source and target features across different layers.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters has-text-centered">
+          <h2 class="title is-3">Method Overview</h2>
+          <figure class="image">
+            <img src="overview.png" alt="Method Overview">
+          </figure>
+          <p class="content is-medium" style="margin-top: 1rem;">
+            <b>An illustration of the architecture.</b> We use CAT3D, a multi-view diffusion model, to generate synthetic views conditioned on random spline camera trajectories and a random image. From the two random views form the generated views as the source views and the input conditioning view to be the target of our large reconstruction network. Our large reconstruction model uses a special transformer block which we name Tok-D Transformer. When real data is available, we just use the reconstruction transformer.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters has-text-centered">
+          <h2 class="title is-3">Token-Disentangled (Tok-D) Transformer Block</h2>
+          <figure class="image">
+            <img src="tokd_transformer.png" alt="Diagram of the Tok-D transformer block architecture">
+          </figure>
+          <p class="content is-medium" style="margin-top: 1rem;">
+            <b>An illustration of the Tok-D transformer block </b> -- which differentiates between source and target tokens. The Tok-D transformer modulates the input to all blocks, while an enhanced version also modulates the attention and MLP layers.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class="section"> -->
+  <!--   <div class="container"> -->
+  <!--     <div class="columns is-centered"> -->
+  <!--       <div class="column is-three-quarters has-text-centered"> -->
+  <!--         <h2 class="title is-3">Out-of-Distribution Evaluation</h2> -->
+  <!--         <figure class="image"> -->
+  <!--           <img src="crossresults_6.png" alt="Qualitative results of our method versus LVSM on out-of-distribution datasets"> -->
+  <!--         </figure> -->
+  <!--         <p class="content is-medium" style="margin-top: 1rem;"> -->
+  <!--           We evaluate our version of our method fine-tuned on synthetic data and LVSM on DL3DV and ACID (i.e. out-of-distribution datasets). We also evaluate the model with resolutions that were not used during training. We notice that LVSM's visual quality degrades when substantial camera motion reveals previously-occluded regions. -->
+  <!--         </p> -->
+  <!--       </div> -->
+  <!--     </div> -->
+  <!--   </div> -->
+  <!-- </section> -->
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3 has-text-centered">Quantitative Results</h2>
+          <p class="content has-text-centered">
+            Quantitative comparisons for in-distribution scene synthesis at 256p resolution. Our method outperforms the previous SOTA method across all existing datasets.
+          </p>
+          <div class="table-container">
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+              <thead>
+                <tr>
+                  <th rowspan="2" style="vertical-align: middle; text-align: center;">Method</th>
+                  <th rowspan="2" style="vertical-align: middle; text-align: center;">Venue</th>
+                  <th colspan="3" class="has-text-centered">RealEstate 10k</th>
+                  <th colspan="3" class="has-text-centered">ACID</th>
+                  <th colspan="3" class="has-text-centered">DL3DV</th>
+                </tr>
+                <tr>
+                  <th class="has-text-centered">PSNR↑</th>
+                  <th class="has-text-centered">SSIM↑</th>
+                  <th class="has-text-centered">LPIPS↓</th>
+                  <th class="has-text-centered">PSNR↑</th>
+                  <th class="has-text-centered">SSIM↑</th>
+                  <th class="has-text-centered">LPIPS↓</th>
+                  <th class="has-text-centered">PSNR↑</th>
+                  <th class="has-text-centered">SSIM↑</th>
+                  <th class="has-text-centered">LPIPS↓</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>GPNR</td>
+                  <td>CVPR 23</td>
+                  <td>24.11</td>
+                  <td>0.793</td>
+                  <td>0.255</td>
+                  <td>25.28</td>
+                  <td>0.764</td>
+                  <td>0.332</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>PixelSplat</td>
+                  <td>CVPR 24</td>
+                  <td>25.89</td>
+                  <td>0.858</td>
+                  <td>0.142</td>
+                  <td>28.14</td>
+                  <td>0.839</td>
+                  <td>0.533</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td>MVSplat</td>
+                  <td>ECCV 25</td>
+                  <td>26.39</td>
+                  <td>0.869</td>
+                  <td>0.128</td>
+                  <td>28.25</td>
+                  <td>0.843</td>
+                  <td>0.144</td>
+                  <td>17.54</td>
+                  <td>0.529</td>
+                  <td>0.402</td>
+                </tr>
+                <tr>
+                  <td>DepthSplat</td>
+                  <td>CVPR 25</td>
+                  <td>27.44</td>
+                  <td>0.887</td>
+                  <td>0.119</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>19.05</td>
+                  <td>0.610</td>
+                  <td>0.313</td>
+                </tr>
+                <tr>
+                  <td>LVSM</td>
+                  <td>ICLR 25</td>
+                  <td>28.89</td>
+                  <td>0.894</td>
+                  <td>0.108</td>
+                  <td>29.19</td>
+                  <td>0.836</td>
+                  <td>0.095</td>
+                  <td>19.91</td>
+                  <td>0.600</td>
+                  <td>0.273</td>
+                </tr>
+                <tr>
+                  <td><b>Ours</b></td>
+                  <td>ICCV 25</td>
+                  <td><b>30.02</b></td>
+                  <td><b>0.919</b></td>
+                  <td><b>0.058</b></td>
+                  <td><b>29.47</b></td>
+                  <td><b>0.846</b></td>
+                  <td><b>0.086</b></td>
+                  <td><b>21.55</b></td>
+                  <td><b>0.643</b></td>
+                  <td><b>0.208</b></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-three-quarters">
+          <h2 class="title is-3 has-text-centered">BibTeX</h2>
+          <div id="bibtex">
+            <pre><code>@inproceedings{placeholder2025scaling,
+  title={Scaling Transformer-Based Novel View Synthesis with Token Disentanglement and Synthetic Data},
+  author={Nair, Nithin Gopalakrishnan and Kaza, Srinivas and Luo, Xuan and Patel, Vishal M. and Lombardi, Stephen and Park, Jungyeon},
+  booktitle={International Conference on Computer Vision (ICCV)},
+  year={2025}
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script>
+  <script>
+    bulmaCarousel.attach('#carousel-results', {
+      slidesToScroll: 2,
+      slidesToShow: 2,
+      infinite: true,
+      autoplay: true,
+      autoplaySpeed: 4000,
+      pauseOnHover: true,
+    });
+  </script>
+
+</body>
+</html>
